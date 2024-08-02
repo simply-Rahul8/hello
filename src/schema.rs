@@ -1,18 +1,23 @@
-use diesel::table;
+// @generated automatically by Diesel CLI.
 
-table! {
+diesel::table! {
     tasks (id) {
-        id -> Integer,
+        id -> Int4,
         description -> Text,
-        reward -> BigInt,
+        reward -> Int8,
         completed -> Bool,
     }
 }
 
-table! {
+diesel::table! {
     users (id) {
         id -> Int4,
         username -> Varchar,
         password_hash -> Varchar,
     }
 }
+
+diesel::allow_tables_to_appear_in_same_query!(
+    tasks,
+    users,
+);
