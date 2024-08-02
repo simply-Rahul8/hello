@@ -1,7 +1,8 @@
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
+use crate::schema::tasks;
 
-#[derive(Queryable, Insertable, Serialize, Deserialize)]
+#[derive(Queryable, Selectable, Serialize, Deserialize, Debug)]
 #[diesel(table_name = crate::schema::tasks)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Task {
@@ -11,14 +12,10 @@ pub struct Task {
     pub completed: bool,
 }
 
-impl Task {
-    pub fn new(description: String, reward: i64, completed: bool) -> Self {
-        Task {
-            id: 0,
-            description,
-            reward,
-            completed,
-        }
-    }
+#[derive(Insertable, Debug)]
+#[table_name = "tasks"]
+pub struct NewTask<'a> {
+    pub description:  &'a str,
+    pub reward:  &'a i64,
+    pub completed: bool,
 }
-
