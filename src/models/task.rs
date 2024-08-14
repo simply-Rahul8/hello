@@ -1,9 +1,9 @@
+use crate::schema::tasks;
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
-use crate::schema::tasks;
 
 #[derive(Queryable, Selectable, Serialize, Deserialize, Debug)]
-#[diesel(table_name = crate::schema::tasks)]
+#[diesel(table_name = tasks)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Task {
     pub id: i32,
@@ -13,9 +13,9 @@ pub struct Task {
 }
 
 #[derive(Insertable, Debug)]
-#[table_name = "tasks"]
+#[diesel(table_name = tasks)]
 pub struct NewTask<'a> {
-    pub description:  &'a str,
-    pub reward:  &'a i64,
+    pub description: &'a str,
+    pub reward: &'a i64,
     pub completed: bool,
 }
