@@ -9,4 +9,3 @@ pub fn establish_connection(database_url: &str) -> DbPool {
         .build(manager)
         .expect("Failed to create pool.")
 }
-
