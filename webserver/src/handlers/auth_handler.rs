@@ -1,5 +1,8 @@
 use actix_web::{post, web, HttpResponse, Responder};
+use diesel::prelude::*;
 use serde::Deserialize;
+
+use crate::{models::user::NewUser, schema::users};
 
 #[derive(Deserialize)]
 pub struct LoginRequest {
@@ -7,8 +10,18 @@ pub struct LoginRequest {
     password: String,
 }
 
-#[post("/login")]
-pub async fn login(credentials: web::Json<LoginRequest>) -> impl Responder {
-    // Implement authentication logic
-    HttpResponse::Ok().finish()
+#[post("/register")]
+pub async fn register(
+    conn: &mut PgConnection,
+    credentials: web::Json<LoginRequest>,
+) -> impl Responder {
+    let user = diesel::insert_into(users::table)
+        .values(&NewUser {
+            username: &credentials.username,
+            password_hash: &credentials.password,
+        })
+        .returning(users::all_columns)
+        .get_result(conn)
+        .expect("Error saving new user");
+    HttpResponse::Ok().json(user)
 }
