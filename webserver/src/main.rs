@@ -1,9 +1,8 @@
 use actix::Actor;
 use actix_cors::Cors;
-use actix_files::{Files, NamedFile};
 use actix_web::middleware::Logger;
 use actix_web::web::{self, Data};
-use actix_web::{App, HttpServer, Responder};
+use actix_web::{App, HttpServer};
 use chat::chat_server;
 use config::Config;
 use dotenv::dotenv;
@@ -42,15 +41,9 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .app_data(web::Data::from(app_state.clone()))
             .app_data(web::Data::new(server.clone()))
-            .service(web::resource("/").to(index))
-            .service(Files::new("/static", "./static"))
             .wrap(Logger::default())
     })
     .bind("127.0.0.1:8080")?
     .run()
     .await
-}
-
-async fn index() -> impl Responder {
-    NamedFile::open_async("./static/index.html").await.unwrap()
 }

@@ -1,32 +1,32 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 export default function ChatPage() {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [messages, setMessages] = useState<string[]>([]);
-  const [input, setInput] = useState('');
-  const [name, setName] = useState('');
+  const [input, setInput] = useState("");
+  const [name, setName] = useState("");
   const [chatRooms, setChatRooms] = useState<string[]>([]);
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Create WebSocket connection
-    const socket = new WebSocket('ws://127.0.0.1:8080/api/ws');
+    const socket = new WebSocket("ws://127.0.0.1:8080/api/ws");
 
     // Connection opened
-    socket.addEventListener('open', () => {
-      console.log('Connected to WebSocket');
+    socket.addEventListener("open", () => {
+      console.log("Connected to WebSocket");
       setWs(socket);
     });
 
     // Listen for messages
-    socket.addEventListener('message', (event) => {
+    socket.addEventListener("message", (event) => {
       const data = event.data as string;
       setMessages((prevMessages) => [...prevMessages, data]);
 
-      if (data.startsWith('Rooms:')) {
-        const rooms = data.replace('Rooms:', '').trim().split(',');
+      if (data.startsWith("Rooms:")) {
+        const rooms = data.replace("Rooms:", "").trim().split(",");
         setChatRooms(rooms);
       }
     });
@@ -38,14 +38,14 @@ export default function ChatPage() {
   }, []);
 
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSendMessage = () => {
     if (input && ws) {
       ws.send(input);
-      setMessages((prevMessages) => [...prevMessages, `You: ${input}`]);
-      setInput('');
+      // setMessages((prevMessages) => [...prevMessages, `You: ${input}`]);
+      setInput("");
     }
   };
 
@@ -59,7 +59,7 @@ export default function ChatPage() {
 
   const handleListRooms = () => {
     if (ws) {
-      const command = '/list';
+      const command = "/list";
       ws.send(command);
       setMessages((prevMessages) => [...prevMessages, `You: ${command}`]);
     }
@@ -137,7 +137,7 @@ export default function ChatPage() {
             placeholder="Type a message"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
           />
           <button
             className="ml-2 bg-blue-600 text-white p-2 rounded hover:bg-blue-700"

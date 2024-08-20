@@ -93,14 +93,15 @@ impl ChatServer {
 impl ChatServer {
     /// Send message to all users in the room
     fn send_message(&self, room: &str, message: &str, skip_id: usize) {
-        if let Some(sessions) = self.rooms.get(room) {
-            for id in sessions {
-                if *id != skip_id {
+        match self.rooms.get(room) {
+            Some(sessions) => {
+                for id in sessions {
                     if let Some(addr) = self.sessions.get(id) {
                         addr.do_send(Message(message.to_owned()));
                     }
                 }
             }
+            None => log::error!("No room: {}", room),
         }
     }
 }
@@ -119,7 +120,7 @@ impl Handler<Connect> for ChatServer {
     type Result = usize;
 
     fn handle(&mut self, msg: Connect, _: &mut Context<Self>) -> Self::Result {
-        println!("Someone joined");
+        log::info!("Someone joined");
 
         // notify all users in same room
         self.send_message("main", "Someone joined", 0);
@@ -144,7 +145,7 @@ impl Handler<Disconnect> for ChatServer {
     type Result = ();
 
     fn handle(&mut self, msg: Disconnect, _: &mut Context<Self>) {
-        println!("Someone disconnected");
+        log::info!("Someone disconnected");
 
         let mut rooms: Vec<String> = Vec::new();
 
