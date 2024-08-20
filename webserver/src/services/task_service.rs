@@ -19,6 +19,6 @@ pub async fn create_task(
         .values(&new_task)
         .returning(Task::as_returning())
         .get_result(conn);
-    println!("{:?}", some);
+    log::info!("{:?}", some);
     return some;
 }

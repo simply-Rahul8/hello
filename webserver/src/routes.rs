@@ -7,11 +7,10 @@ use crate::{
 
 pub fn init(cfg: &mut web::ServiceConfig) {
     cfg.service(
-        web::scope("/api")
+        web::scope("/api/v1")
             .service(task_handler::create_task)
-            // .service(task_handler::complete_task)
-            .service(auth_handler::login)
-            .route("/count", web::get().to(get_count))
-            .route("/ws", web::get().to(chat_route)),
-    );
+            .service(auth_handler::register),
+    )
+    .route("/count", web::get().to(get_count))
+    .route("/ws", web::get().to(chat_route));
 }

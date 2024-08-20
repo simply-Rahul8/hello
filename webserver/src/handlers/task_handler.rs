@@ -1,6 +1,5 @@
 use crate::db::DbPool;
 use actix_web::{post, web, HttpResponse, Responder};
-use diesel::row::NamedRow;
 use serde::Deserialize;
 
 use crate::services::task_service;
