@@ -43,7 +43,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-build-
 
-      - name: Set up Docker Compose
+      - name: Run Docker Compose
         run: cd webserver && docker-compose up -d
 
       - name: Wait for Postgres to be ready
@@ -59,6 +59,3 @@ jobs:
         env:
           DATABASE_URL: "postgres://myuser:mypassword@localhost:5432/postgres"
         run: cd webserver && cargo test --verbose
-
-      - name: Shut down Docker Compose
-        run: cd webserver && docker-compose down
