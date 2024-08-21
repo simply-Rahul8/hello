@@ -2,6 +2,9 @@ name: Rust
 
 on:
   push:
+    paths:
+      - "webserver/**"
+      - ".github/workflows/rust.yml"
     branches: ["main"]
   pull_request:
     branches: ["main"]
@@ -40,8 +43,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-build-
 
+      - name: Set up Docker Compose
+        run: cd webserver && docker-compose up -d
+
+      - name: Wait for Postgres to be ready
+        run: |
+          until docker exec postgres pg_isready -U myuser; do
+            sleep 1;
+          done
+
       - name: Build
         run: cd webserver && cargo build --verbose
 
       - name: Run tests
+        env:
+          DATABASE_URL: "postgres://myuser:mypassword@localhost:5432/postgres"
         run: cd webserver && cargo test --verbose
+
+      - name: Shut down Docker Compose
+        run: cd webserver && docker-compose down
