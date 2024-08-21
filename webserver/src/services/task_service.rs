@@ -14,11 +14,37 @@ pub async fn create_task(
         completed: false,
     };
 
-    // let task = Task {id: 0 ,description: String::from(description), reward: reward.clone(), completed: false  };
     let some = diesel::insert_into(tasks::table)
         .values(&new_task)
         .returning(Task::as_returning())
         .get_result(conn);
     log::info!("{:?}", some);
     return some;
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::database::test_db::{self, TestDb};
+
+    use super::*;
+
+    #[actix_rt::test]
+    async fn test_create_task_success() {
+        let db = TestDb::new();
+        test_db::run_migrations(&mut db.conn());
+
+        let description = "test task";
+        let reward = 100;
+
+        let result = create_task(&mut db.conn(), description, &reward).await;
+
+        assert!(
+            result.is_ok(),
+            "Task creation failed when it should have succeeded"
+        );
+
+        let created_task = result.unwrap();
+        assert_eq!(created_task.description, description);
+        assert_eq!(created_task.reward, reward);
+    }
 }
