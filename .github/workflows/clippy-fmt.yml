@@ -1,7 +1,11 @@
 name: lint
 
 on:
+
   pull_request:
+    paths:
+      - "webserver/**"
+      - ".github/workflows/clippy-fmt.yml"
     types: [opened, synchronize, reopened]
 
 jobs:
