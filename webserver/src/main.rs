@@ -1,3 +1,4 @@
+use crate::database::db;
 use actix::Actor;
 use actix_cors::Cors;
 use actix_web::middleware::Logger;
@@ -11,13 +12,12 @@ use std::sync::Arc;
 
 mod chat;
 mod config;
-mod db;
+mod database;
 mod handlers;
 mod models;
 mod routes;
 mod schema;
 mod services;
-mod utils;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -29,9 +29,8 @@ async fn main() -> std::io::Result<()> {
 
     let app_state = Arc::new(AtomicUsize::new(0));
 
-    // start chat server actor
     let server = chat_server::ChatServer::new(app_state.clone()).start();
-    log::info!("starting HTTP server at http://localhost:8080");
+    log::info!("Starting HTTP server at http://127.0.0.1:8080");
     HttpServer::new(move || {
         let cors = Cors::permissive();
 
@@ -43,6 +42,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(server.clone()))
             .wrap(Logger::default())
     })
+    .workers(4)
     .bind("127.0.0.1:8080")?
     .run()
     .await
