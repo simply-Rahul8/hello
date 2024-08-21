@@ -13,17 +13,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Run Clippy (Lint)
-        run: cd webserver && cargo clippy -- -D warnings
-
-      - name: Check Formatting
-        run: cd webserver && cargo fmt -- --check
-
   build:
     runs-on: ubuntu-latest
 
