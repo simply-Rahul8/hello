@@ -1,8 +1,8 @@
 -- Your SQL goes here
 CREATE TABLE "tasks"(
-	"id" SERIAL NOT NULL PRIMARY KEY,
+	"id" INT4 NOT NULL PRIMARY KEY,
 	"description" TEXT NOT NULL,
-	"reward" BIGINT NOT NULL,
+	"reward" INT8 NOT NULL,
 	"completed" BOOL NOT NULL
 );
 
@@ -11,4 +11,3 @@ CREATE TABLE "users"(
 	"username" VARCHAR NOT NULL,
 	"password_hash" VARCHAR NOT NULL
 );
-
