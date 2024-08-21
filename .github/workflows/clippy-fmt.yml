@@ -21,6 +21,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cache Cargo Registry
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-registry-
+
+      - name: Cache Cargo Target Directory
+        uses: actions/cache@v3
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-target-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-target-
+
       - name: clippy
         timeout-minutes: 30
         uses: giraffate/clippy-action@v1
