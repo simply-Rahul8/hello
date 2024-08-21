@@ -7,7 +7,7 @@ on:
       - ".github/workflows/rust.yml"
     branches: ["main", "cicd"]
   pull_request:
-
+    types: [opened, synchronize, reopened]
     branches: [ main ]
 
 env:
