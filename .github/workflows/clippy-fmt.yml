@@ -1,4 +1,4 @@
-name: lint
+name: Lint
 
 on:
 
@@ -20,12 +20,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-#
-#      - name: Install Rust
-#        uses: actions-rust-lang/setup-rust-toolchain@v1.9.0
-#        with:
-#          toolchain: stable
-#          components: clippy
 
       - name: clippy
         timeout-minutes: 30
@@ -34,15 +28,3 @@ jobs:
           reporter: "github-pr-check"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           clippy_flags: --workspace --all-features --tests
-
-  setup-database:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Run Docker Compose
-        run: cd webserver && docker compose up -d
-
-      - name: Run Tests
-        run: cd webserver && cargo test --verbose
