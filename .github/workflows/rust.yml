@@ -1,11 +1,6 @@
 name: Rust CI Pipeline
 
 on:
-  push:
-    paths:
-      - "webserver/**"
-      - ".github/workflows/rust.yml"
-    branches: [ main, cicd ]
   pull_request:
     paths:
       - "webserver/**"
