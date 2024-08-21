@@ -7,7 +7,8 @@ on:
       - ".github/workflows/rust.yml"
     branches: ["main", "cicd"]
   pull_request:
-#    if pull request is opened against any branch
+
+    branches: [ main ]
 
 env:
   CARGO_TERM_COLOR: always
