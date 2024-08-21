@@ -44,13 +44,7 @@ jobs:
             ${{ runner.os }}-cargo-build-
 
       - name: Run Docker Compose
-        run: cd webserver && docker compose up
-
-      - name: Wait for Postgres to be ready
-        run: |
-          until docker exec postgres pg_isready -U myuser; do
-            sleep 1;
-          done
+        run: cd webserver && docker compose up -d
 
       - name: Build
         run: cd webserver && cargo build --verbose
