@@ -85,8 +85,8 @@ jobs:
       - name: Run Docker Compose
         run: cd webserver && docker compose up -d
 
-      - name: Wait for Database
-        run: until docker exec webserver-db pg_isready --dbname=postgres --username=myuser; do sleep 1; done
+#      - name: Wait for Database
+#        run: until docker exec webserver pg_isready --dbname=postgres --username=myuser; do sleep 1; done
 
       - name: Run Tests
         env:
