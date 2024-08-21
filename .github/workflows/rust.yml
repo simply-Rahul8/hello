@@ -13,7 +13,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  setup-database:
     runs-on: ubuntu-latest
 
     steps:
@@ -54,9 +54,6 @@ jobs:
       - name: Run Docker Compose
         run: cd webserver && docker compose up -d
 
-      - name: Build Project
-        run: cd webserver && cargo build --verbose
-
   test:
     runs-on: ubuntu-latest
     needs: build
@@ -73,9 +70,6 @@ jobs:
 
       - name: Run Docker Compose
         run: cd webserver && docker compose up -d
-
-#      - name: Wait for Database
-#        run: until docker exec webserver pg_isready --dbname=postgres --username=myuser; do sleep 1; done
 
       - name: Run Tests
         env:
