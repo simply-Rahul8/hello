@@ -6,7 +6,7 @@ use std::env;
 use std::sync::atomic::{AtomicU32, Ordering};
 
 static TEST_DB_COUNTER: AtomicU32 = AtomicU32::new(0);
-pub const TEST_MIGRATIONS: EmbeddedMigrations = embed_migrations!("./migrations");
+const TEST_MIGRATIONS: EmbeddedMigrations = embed_migrations!("./migrations");
 
 pub struct TestDb {
     default_db_url: String,
