@@ -24,7 +24,7 @@ pub async fn create_task(
 
 #[cfg(test)]
 mod tests {
-    use crate::database::test_db::{self, TestDb};
+    use crate::database::test_db::TestDb;
 
     use super::*;
 
