@@ -31,7 +31,6 @@ mod tests {
     #[actix_rt::test]
     async fn test_create_task_success() {
         let db = TestDb::new();
-        test_db::run_test_migrations(&mut db.conn());
 
         let description = "test task";
         let reward = 100;

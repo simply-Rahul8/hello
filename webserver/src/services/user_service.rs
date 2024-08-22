@@ -51,7 +51,7 @@ fn verify_password(hash: &str, plain: &str) -> Result<bool, bcrypt::BcryptError>
 
 #[cfg(test)]
 mod tests {
-    use crate::database::test_db::{self, TestDb};
+    use crate::database::test_db::TestDb;
 
     use super::*;
 
@@ -85,7 +85,6 @@ mod tests {
     #[actix_rt::test]
     async fn test_register_user_duplicate_username() {
         let db = TestDb::new();
-        test_db::run_test_migrations(&mut db.conn());
         let mut conn = db.conn();
 
         let username = "testuser";
