@@ -1,11 +1,12 @@
+use diesel::backend::Backend;
 use diesel::{sql_query, Connection, PgConnection, RunQueryDsl};
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
-use log::{debug, warn};
+use log::warn;
 use std::env;
 use std::sync::atomic::{AtomicU32, Ordering};
 
 static TEST_DB_COUNTER: AtomicU32 = AtomicU32::new(0);
-pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("./migrations");
+pub const TEST_MIGRATIONS: EmbeddedMigrations = embed_migrations!("./migrations");
 
 pub struct TestDb {
     default_db_url: String,
@@ -36,7 +37,7 @@ impl TestDb {
         let url = format!("postgres://myuser:mypassword@localhost/{}", name);
         let mut conn = PgConnection::establish(&url).expect("Failed to connect to test database");
         log::info!("DATABASE URL IS: {:?}", url);
-        run_migrations(&mut conn);
+        run_test_migrations(&mut conn);
 
         Self {
             default_db_url: default_db_url.to_string(),
@@ -92,9 +93,9 @@ impl Drop for TestDb {
     }
 }
 
-pub fn run_migrations(connection: &mut PgConnection) {
+pub fn run_test_migrations<DB: Backend>(connection: &mut impl MigrationHarness<DB>) {
     connection
-        .run_pending_migrations(MIGRATIONS)
+        .run_pending_migrations(TEST_MIGRATIONS)
         .expect("Failed to run migrations");
 }
 

@@ -85,7 +85,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_register_user_duplicate_username() {
         let db = TestDb::new();
-        test_db::run_migrations(&mut db.conn());
+        test_db::run_test_migrations(&mut db.conn());
         let mut conn = db.conn();
 
         let username = "testuser";

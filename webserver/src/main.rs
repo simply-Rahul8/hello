@@ -6,9 +6,11 @@ use actix_web::web::{self, Data};
 use actix_web::{App, HttpServer};
 use chat::chat_server;
 use config::Config;
+use database::db::MIGRATIONS;
 use dotenv::dotenv;
 use std::sync::atomic::AtomicUsize;
 use std::sync::Arc;
+extern crate diesel;
 
 mod chat;
 mod config;
@@ -26,8 +28,13 @@ async fn main() -> std::io::Result<()> {
 
     let database_url = Config::from_env().database_url;
     let pool = db::establish_connection(&database_url);
-
     let app_state = Arc::new(AtomicUsize::new(0));
+
+    db::run_migrations(
+        &mut pool.get().expect("Unable to get db connection"),
+        MIGRATIONS,
+    )
+    .expect("Failed to run migrations.");
 
     let server = chat_server::ChatServer::new(app_state.clone()).start();
     log::info!("Starting HTTP server at http://127.0.0.1:8080");
