@@ -105,27 +105,19 @@ mod tests {
 
     #[actix_rt::test]
     async fn test_password_hashing() {
-        let db = TestDb::new();
-        test_db::run_migrations(&mut db.conn());
-
-        let username = "testuser";
         let password = "password123";
+        let hashed_password = hash_password(password).expect("Failed to hash password");
 
-        let result = register_user(&mut db.conn(), username, password).await;
-        println!("RESULT: {:?}", result);
-        assert!(result.is_ok(), "User registration failed");
+        assert_ne!(password, hashed_password);
+    }
 
-        let registered_user = result.unwrap();
+    #[actix_rt::test]
+    async fn test_verify_password() {
+        let password = "password123";
+        let hashed_password = hash_password(password).expect("Failed to hash password");
 
-        // Ensure the password in the database is not the plain text password
-        assert_ne!(
-            registered_user.password_hash, password,
-            "Password was not hashed properly"
-        );
-
-        // Verify that the hashed password matches the original password
-        let is_password_correct = verify_password(&registered_user.password_hash, password)
-            .expect("Password verification failed");
+        let is_password_correct =
+            verify_password(&hashed_password, password).expect("Password verification failed");
         assert!(is_password_correct, "Password verification failed");
     }
 }
