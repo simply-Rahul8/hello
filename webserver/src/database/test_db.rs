@@ -1,3 +1,5 @@
+// disable the dead code warning
+#![allow(dead_code)]
 use diesel::backend::Backend;
 use diesel::{sql_query, Connection, PgConnection, RunQueryDsl};
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
