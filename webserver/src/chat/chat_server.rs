@@ -39,7 +39,6 @@ pub struct Disconnect {
 #[rtype(result = "()")]
 pub struct ClientMessage {
     /// Id of the client session
-    pub id: usize,
     /// Peer message
     pub msg: String,
     /// Room name
@@ -92,7 +91,7 @@ impl ChatServer {
 
 impl ChatServer {
     /// Send message to all users in the room
-    fn send_message(&self, room: &str, message: &str, skip_id: usize) {
+    fn send_message(&self, room: &str, message: &str) {
         match self.rooms.get(room) {
             Some(sessions) => {
                 for id in sessions {
@@ -123,7 +122,7 @@ impl Handler<Connect> for ChatServer {
         log::info!("Someone joined");
 
         // notify all users in same room
-        self.send_message("main", "Someone joined", 0);
+        self.send_message("main", "Someone joined");
 
         // register session with random id
         let id = self.rng.gen::<usize>();
@@ -133,7 +132,7 @@ impl Handler<Connect> for ChatServer {
         self.rooms.entry("main".to_owned()).or_default().insert(id);
 
         let count = self.visitor_count.fetch_add(1, Ordering::SeqCst);
-        self.send_message("main", &format!("Total visitors {count}"), 0);
+        self.send_message("main", &format!("Total visitors {count}"));
 
         // send id back
         id
@@ -160,7 +159,7 @@ impl Handler<Disconnect> for ChatServer {
         }
         // send message to other users
         for room in rooms {
-            self.send_message(&room, "Someone disconnected", 0);
+            self.send_message(&room, "Someone disconnected");
         }
     }
 }
@@ -170,7 +169,7 @@ impl Handler<ClientMessage> for ChatServer {
     type Result = ();
 
     fn handle(&mut self, msg: ClientMessage, _: &mut Context<Self>) {
-        self.send_message(&msg.room, msg.msg.as_str(), msg.id);
+        self.send_message(&msg.room, msg.msg.as_str());
     }
 }
 
@@ -206,11 +205,11 @@ impl Handler<Join> for ChatServer {
         }
         // send message to other users
         for room in rooms {
-            self.send_message(&room, "Someone disconnected", 0);
+            self.send_message(&room, "Someone disconnected");
         }
 
         self.rooms.entry(name.clone()).or_default().insert(id);
 
-        self.send_message(&name, "Someone connected", id);
+        self.send_message(&name, "Someone connected");
     }
 }

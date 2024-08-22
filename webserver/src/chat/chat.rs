@@ -182,7 +182,6 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for WsChatSession {
                     };
                     // send message to chat server
                     self.addr.do_send(chat_server::ClientMessage {
-                        id: self.id,
                         msg,
                         room: self.room.clone(),
                     })
