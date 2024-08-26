@@ -6,7 +6,6 @@ use crate::{
 };
 
 pub fn init(cfg: &mut web::ServiceConfig) {
-    //auth routes should be added but the path should not have api/v1 prefix
     cfg.service(
         web::scope("/api/v1")
             .configure(task_routes)
