@@ -1,9 +1,9 @@
 use actix_web::{post, web, HttpResponse, Responder};
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 use crate::{database::db::DbPool, services::user_service};
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize)]
 pub struct LoginRequest {
     pub username: String,
     pub password: String,
