@@ -1,4 +1,5 @@
 use actix_web::web;
+use task_handler::task_routes;
 
 use crate::{
     chat::{chat_route, get_count},
@@ -14,10 +15,6 @@ pub fn init(cfg: &mut web::ServiceConfig) {
             .route("/count", web::get().to(get_count)),
     );
     cfg.service(web::scope("/ws").route("/chat", web::get().to(chat_route)));
-}
-
-fn task_routes(cfg: &mut web::ServiceConfig) {
-    cfg.service(web::scope("/tasks").service(task_handler::create_task));
 }
 
 fn user_routes(cfg: &mut web::ServiceConfig) {
