@@ -14,6 +14,8 @@ diesel::table! {
         id -> Int4,
         username -> Varchar,
         password_hash -> Varchar,
+        email -> Varchar,
+        created_at -> Timestamp,
     }
 }
 
