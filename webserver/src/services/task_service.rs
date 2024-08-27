@@ -22,6 +22,11 @@ pub async fn create_task(
     return some;
 }
 
+pub(crate) async fn get_tasks(conn: &mut PgConnection) -> Result<Vec<Task>, Error> {
+    let tasks = tasks::table.load::<Task>(conn);
+    return tasks;
+}
+
 #[cfg(test)]
 mod tests {
     use crate::database::test_db::TestDb;
