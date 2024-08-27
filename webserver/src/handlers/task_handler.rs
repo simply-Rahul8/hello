@@ -10,6 +10,10 @@ pub struct CreateTaskRequest {
     reward: i64,
 }
 
+pub fn task_routes(cfg: &mut web::ServiceConfig) {
+    cfg.service(web::scope("/tasks").service(create_task));
+}
+
 #[post("")]
 pub async fn create_task(
     pool: web::Data<DbPool>,
