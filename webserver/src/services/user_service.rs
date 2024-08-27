@@ -7,11 +7,13 @@ pub async fn register_user(
     conn: &mut PgConnection,
     username: &str,
     password: &str,
+    email: &str,
 ) -> Result<User, Error> {
     let password_hash = &hash_password(password).expect("Failed to hash password");
     let new_user = NewUser {
         username,
         password_hash,
+        email,
     };
 
     let user = diesel::insert_into(users::table)
@@ -22,9 +24,9 @@ pub async fn register_user(
     return user;
 }
 
-pub async fn login(conn: &mut PgConnection, username: &str, password: &str) -> Result<User, Error> {
+pub async fn login(conn: &mut PgConnection, email: &str, password: &str) -> Result<User, Error> {
     let user = users::table
-        .filter(users::username.eq(username))
+        .filter(users::email.eq(email))
         .first::<User>(conn);
 
     match user {
@@ -62,8 +64,9 @@ mod tests {
 
         let username = "testuser";
         let password = "password123";
+        let email = "test@example.com";
 
-        let result = register_user(&mut conn, username, password).await;
+        let result = register_user(&mut conn, username, password, email).await;
         println!("{:?}", result);
         assert!(
             result.is_ok(),
@@ -89,13 +92,18 @@ mod tests {
 
         let username = "testuser";
         let password = "password123";
-
+        let email = "test@example.com";
         // First registration should succeed
-        let first_result = register_user(&mut conn, username, password).await;
-        assert!(first_result.is_ok(), "First user registration failed");
+
+        let result = register_user(&mut conn, username, password, email).await;
+        println!("{:?}", result);
+        assert!(
+            result.is_ok(),
+            "User registration failed when it should have succeeded"
+        );
 
         // Second registration with the same username should fail
-        let second_result = register_user(&mut conn, username, password).await;
+        let second_result = register_user(&mut conn, username, password, email).await;
         assert!(
             second_result.is_err(),
             "Second user registration succeeded when it should have failed due to duplicate username"
