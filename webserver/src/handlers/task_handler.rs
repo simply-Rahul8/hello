@@ -10,7 +10,7 @@ pub struct CreateTaskRequest {
     reward: i64,
 }
 
-#[post("/tasks")]
+#[post("")]
 pub async fn create_task(
     pool: web::Data<DbPool>,
     task: web::Json<CreateTaskRequest>,
