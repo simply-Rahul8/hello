@@ -22,6 +22,7 @@ import Image from "next/image";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import mockTasks from "../sampleData/mockTasks";
+import Link from 'next/link'; 
 
 // Components imports
 import { TaskList } from "../components/drag-drop/DropTaskContainer";

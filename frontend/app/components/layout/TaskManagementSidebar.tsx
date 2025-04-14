@@ -11,6 +11,7 @@ import members from "@/app/public/membersIcon.svg";
 import settings from "@/app/public/settingsIcon.svg";
 import downArrow from "@/app/public/down-arrow.svg";
 import arrowLeft from "@/app/public/arrowLeft.svg";
+import Link from 'next/link';
 
 interface SidebarProps {
     isLeftDivRetracted: boolean; // State to determine if the sidebar is retracted
@@ -70,13 +71,16 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
 
                     <div className="font-medium">
                         <div className="flex items-center py-2 px-2">
-                            <Image
-                                src={home}
-                                alt="home icon"
-                                className="w-5 h-5 md:w-6 md:h-6"
-                                style={{ width: "auto", height: "auto" }}
-                            />
-                            <p className="ml-4 text-xl">Home</p>
+                            <Link href="/" className="flex items-center">
+                                <Image
+                                    src={home}
+                                    alt="home icon"
+                                    className="w-5 h-5 md:w-6 md:h-6"
+                                    style={{ width: "auto", height: "auto" }}
+                                />
+                                <p className="ml-4 text-xl">Home</p>
+                                
+                            </Link>
                         </div>
                         <hr />
                         <div className="flex items-center py-2 px-2">
