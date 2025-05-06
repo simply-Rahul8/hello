@@ -7,6 +7,7 @@ interface Task {
   title: string;
   inProgress?: boolean;
   assignees?: string[];
+  list?: string;
 }
 
 const KanbanBoard: React.FC = () => {
@@ -17,6 +18,7 @@ const KanbanBoard: React.FC = () => {
       id: '1', 
       title: 'Design a logo', 
       inProgress: true,
+      list: 'in_progress',
       assignees: [] 
     }
   ];
@@ -24,20 +26,20 @@ const KanbanBoard: React.FC = () => {
   const completedTasks: Task[] = [];
 
   return (
-    <div className="grid grid-cols-3 gap-4 p-4">
+    <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50">
       <TaskColumn 
         title="To do" 
-        count={todoTasks.length} 
+        count={0}
         tasks={todoTasks}
       />
       <TaskColumn 
         title="In progress" 
-        count={inProgressTasks.length} 
+        count={1}
         tasks={inProgressTasks} 
       />
       <TaskColumn 
         title="Completed" 
-        count={completedTasks.length} 
+        count={0}
         tasks={completedTasks}
       />
     </div>

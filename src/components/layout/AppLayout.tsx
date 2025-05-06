@@ -16,7 +16,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       <div className="flex-1 flex flex-col">
         <BoardHeader />
         <BoardToolbar />
-        <main className="flex-1">
+        <main className="flex-1 bg-gray-50">
           {children || <KanbanBoard />}
         </main>
       </div>

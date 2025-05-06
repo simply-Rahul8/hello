@@ -25,7 +25,6 @@ const BoardHeader: React.FC = () => {
           <span>Logged</span>
         </button>
 
-        {/* Profile pictures */}
         <div className="flex -space-x-2">
           <div className="h-8 w-8 rounded-full bg-[#33C3F0] flex items-center justify-center text-white text-xs border-2 border-white">
             AP
@@ -33,12 +32,8 @@ const BoardHeader: React.FC = () => {
           <div className="h-8 w-8 rounded-full bg-[#9b87f5] flex items-center justify-center text-white text-xs border-2 border-white">
             JP
           </div>
-          <div className="h-8 w-8 rounded-full overflow-hidden flex-shrink-0 relative border-2 border-white">
-            <img
-              src="/assets/profileImage.png"
-              alt="User"
-              className="h-full w-full object-cover"
-            />
+          <div className="h-8 w-8 rounded-full bg-green-600 flex items-center justify-center text-white text-xs border-2 border-white">
+            <span className="text-xs">🌲</span>
           </div>
         </div>
       </div>
