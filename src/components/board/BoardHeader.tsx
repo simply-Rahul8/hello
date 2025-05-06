@@ -6,12 +6,8 @@ const BoardHeader: React.FC = () => {
   return (
     <div className="flex items-center justify-between p-4 border-b">
       <div className="flex items-center">
-        {/* Profile image using native img */}
-        <div className="mr-4 w-8 h-8 rounded-full overflow-hidden">
-        </div>
-
-        <h1 className="text-xl font-bold">Project name</h1>
-
+        <h1 className="text-xl font-bold">My bakery</h1>
+        
         <div className="flex ml-6 space-x-1">
           {[...Array(7)].map((_, i) => (
             <div key={i} className="w-5 h-5 rounded-sm bg-gray-200"></div>
@@ -29,16 +25,22 @@ const BoardHeader: React.FC = () => {
           <span>Logged</span>
         </button>
 
-        <div className="h-8 w-8 rounded-full bg-teal flex items-center justify-center"></div>
-
-        {/* Optional extra profile placeholder */}
-        <div className="h-10 w-10 rounded-full overflow-hidden flex-shrink-0 mr-2 relative">
+        {/* Profile pictures */}
+        <div className="flex -space-x-2">
+          <div className="h-8 w-8 rounded-full bg-[#33C3F0] flex items-center justify-center text-white text-xs border-2 border-white">
+            AP
+          </div>
+          <div className="h-8 w-8 rounded-full bg-[#9b87f5] flex items-center justify-center text-white text-xs border-2 border-white">
+            JP
+          </div>
+          <div className="h-8 w-8 rounded-full overflow-hidden flex-shrink-0 relative border-2 border-white">
             <img
               src="/assets/profileImage.png"
               alt="User"
-              className="h-full w-full object-cover rounded-full"
+              className="h-full w-full object-cover"
             />
           </div>
+        </div>
       </div>
     </div>
   );
