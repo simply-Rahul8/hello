@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, Layers, Users, Settings, ChevronDown } from 'lucide-react';
+import { Home, Layers, Users, Settings, ChevronDown, Bell } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface SidebarProps {
