@@ -11,7 +11,15 @@ interface Task {
 }
 
 const KanbanBoard: React.FC = () => {
-  const todoTasks: Task[] = [];
+  // Sample task data
+  const todoTasks: Task[] = [
+    { 
+      id: '2', 
+      title: 'Design a logo', 
+      list: 'to_do',
+      assignees: [] 
+    }
+  ];
   
   const inProgressTasks: Task[] = [
     { 
@@ -23,23 +31,30 @@ const KanbanBoard: React.FC = () => {
     }
   ];
   
-  const completedTasks: Task[] = [];
+  const completedTasks: Task[] = [
+    { 
+      id: '3', 
+      title: 'Write a task', 
+      list: 'completed',
+      assignees: [] 
+    }
+  ];
 
   return (
     <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50">
       <TaskColumn 
         title="To do" 
-        count={0}
+        count={todoTasks.length}
         tasks={todoTasks}
       />
       <TaskColumn 
         title="In progress" 
-        count={1}
+        count={inProgressTasks.length}
         tasks={inProgressTasks} 
       />
       <TaskColumn 
         title="Completed" 
-        count={0}
+        count={completedTasks.length}
         tasks={completedTasks}
       />
     </div>

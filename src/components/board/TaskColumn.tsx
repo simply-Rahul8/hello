@@ -19,10 +19,10 @@ interface TaskColumnProps {
 
 const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks }) => {
   return (
-    <div className="bg-gray-100 rounded-lg p-4 min-h-[200px] w-full">
-      <div className="flex justify-between items-center mb-4">
+    <div className="task-column">
+      <div className="task-column-header">
         <div className="flex items-center gap-2">
-          <span className="text-lg font-semibold">{title}</span>
+          <span className="task-column-title">{title}</span>
           <span className="text-gray-500 text-sm">({count})</span>
         </div>
         <div className="flex items-center gap-2">
@@ -68,7 +68,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks }) => {
         </Card>
       ))}
 
-      <button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded flex items-center justify-center gap-2 mt-2">
+      <button className="task-add-button">
         <Plus size={16} />
         <span>Add a task</span>
       </button>

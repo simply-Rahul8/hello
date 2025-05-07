@@ -10,8 +10,11 @@ const Index = () => {
       <div className="p-8">
         <h1 className="text-2xl font-bold mb-6">Available Pages</h1>
         <div className="flex flex-col gap-4">
+          <Link to="/dashboard">
+            <Button variant="default">Dashboard</Button>
+          </Link>
           <Link to="/job-requirements">
-            <Button variant="default">Job Requirements</Button>
+            <Button variant="outline">Job Requirements</Button>
           </Link>
           <Link to="/job-posting">
             <Button variant="outline">Job Posting</Button>
