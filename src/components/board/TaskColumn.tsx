@@ -2,6 +2,7 @@
 import React from 'react';
 import { Plus, X, MoreHorizontal, Clock, Users, Paperclip } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
+import { Link } from 'react-router-dom';
 
 interface Task {
   id: string;
@@ -61,9 +62,11 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks }) => {
               </button>
             </div>
             
-            <button className="w-full bg-[#33C3F0] text-white py-1.5 px-2 rounded-md flex items-center justify-center gap-1 text-sm mt-3">
-              <span>Outsource talent for task</span>
-            </button>
+            <Link to="/talent-announcement" className="block w-full mt-3">
+              <button className="w-full bg-[#33C3F0] text-white py-1.5 px-2 rounded-md flex items-center justify-center gap-1 text-sm hover:bg-[#28acd7] transition-colors">
+                <span>Outsource talent for task</span>
+              </button>
+            </Link>
           </CardContent>
         </Card>
       ))}

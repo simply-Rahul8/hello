@@ -10,6 +10,7 @@ import JobPosting from "./pages/JobPosting";
 import ProjectDeadline from "./pages/ProjectDeadline";
 import JobRequirements from "./pages/JobRequirements";
 import Dashboard from "./pages/Dashboard";
+import TalentAnnouncement from "./pages/TalentAnnouncement";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/talent-announcement" element={<TalentAnnouncement />} />
           <Route path="/job-posting" element={<JobPosting />} />
           <Route path="/project-deadline" element={<ProjectDeadline />} />
           <Route path="/job-requirements" element={<JobRequirements />} />
