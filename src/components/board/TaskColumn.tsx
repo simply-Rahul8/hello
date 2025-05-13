@@ -3,6 +3,7 @@ import React from 'react';
 import { Plus, X, MoreHorizontal, Clock, Users, Paperclip } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from 'react-router-dom';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Task {
   id: string;
@@ -16,9 +17,10 @@ interface TaskColumnProps {
   title: string;
   count: number;
   tasks: Task[];
+  onAddTask: () => void;
 }
 
-const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks }) => {
+const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks, onAddTask }) => {
   return (
     <div className="task-column">
       <div className="task-column-header">
@@ -41,9 +43,19 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks }) => {
           <CardContent className="p-4">
             <div className="flex justify-between items-start mb-2">
               <input type="checkbox" className="h-4 w-4 mt-1" />
-              <button className="text-gray-400 hover:text-gray-600">
-                <MoreHorizontal size={16} />
-              </button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="text-gray-400 hover:text-gray-600">
+                    <MoreHorizontal size={16} />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>Move to In Progress</DropdownMenuItem>
+                  <DropdownMenuItem>Move to Completed</DropdownMenuItem>
+                  <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <h3 className="font-medium text-black">{task.title}</h3>
             {task.list && (
@@ -62,7 +74,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks }) => {
               </button>
             </div>
             
-            <Link to="/talent-announcement" className="block w-full mt-3">
+            <Link to="/outsourcing/talent-announcement" className="block w-full mt-3">
               <button className="w-full bg-[#33C3F0] text-white py-1.5 px-2 rounded-md flex items-center justify-center gap-1 text-sm hover:bg-[#28acd7] transition-colors">
                 <span>Outsource talent for task</span>
               </button>
@@ -71,7 +83,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks }) => {
         </Card>
       ))}
 
-      <button className="task-add-button">
+      <button className="task-add-button" onClick={onAddTask}>
         <Plus size={16} />
         <span>Add a task</span>
       </button>

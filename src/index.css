@@ -67,5 +67,38 @@
 }
 
 .task-add-button {
-  @apply w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded flex items-center justify-center gap-2 mt-2;
+  @apply w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded flex items-center justify-center gap-2 mt-4;
+}
+
+/* Highlighted task styles */
+.task-highlight {
+  @apply bg-[#9b87f5] text-white p-2 rounded-md mb-2 text-sm;
+}
+
+/* Task priority indicators */
+.task-priority-high {
+  @apply bg-red-100 text-red-800 rounded-full px-2 py-0.5 text-xs font-medium;
+}
+
+.task-priority-medium {
+  @apply bg-yellow-100 text-yellow-800 rounded-full px-2 py-0.5 text-xs font-medium;
+}
+
+.task-priority-low {
+  @apply bg-green-100 text-green-800 rounded-full px-2 py-0.5 text-xs font-medium;
+}
+
+/* Hover effects for task cards */
+.task-card:hover {
+  @apply shadow-md transition-shadow duration-200;
+}
+
+/* Task title styles */
+.task-title {
+  @apply font-medium text-gray-900 mb-1;
+}
+
+/* Task assignee pill */
+.task-assignee {
+  @apply bg-blue-100 text-blue-800 rounded-full px-2 py-0.5 text-xs inline-flex items-center mr-1;
 }
