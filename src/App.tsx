@@ -7,9 +7,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import JobPosting from "./pages/JobPosting";
 import ProjectDeadline from "./pages/ProjectDeadline";
-import JobRequirements from "./pages/JobRequirements";
+import Requirement from "./pages/Requirement"; // Renamed from JobRequirements
 import Dashboard from "./pages/Dashboard";
-import TalentAnnouncement from "./pages/TalentAnnouncement";
+import Announcement from "./pages/Announcement"; // Renamed from TalentAnnouncement
 
 const queryClient = new QueryClient();
 
@@ -24,11 +24,11 @@ const App = () => (
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           
-          {/* Outsourcing routes */}
-          <Route path="/outsourcing/talent-announcement" element={<TalentAnnouncement />} />
+          {/* Outsourcing routes - renamed */}
+          <Route path="/outsourcing/announcement" element={<Announcement />} />
           <Route path="/outsourcing/job-posting" element={<JobPosting />} />
           <Route path="/outsourcing/project-deadline" element={<ProjectDeadline />} />
-          <Route path="/outsourcing/job-requirements" element={<JobRequirements />} />
+          <Route path="/outsourcing/requirement" element={<Requirement />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

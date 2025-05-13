@@ -44,6 +44,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         </div>
       </div>
 
+      {/* Separator line */}
+      <div className="border-t border-gray-700 mx-2 my-1"></div>
+
       {/* Workspaces Section */}
       <div className="px-4 py-2">
         <p className="text-xs text-gray-300 mb-2">Workspaces</p>
@@ -59,16 +62,22 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         </div>
       </div>
 
+      {/* Separator line */}
+      <div className="border-t border-gray-700 mx-2 my-1"></div>
+
       {/* Navigation */}
-      <div className="mt-4 px-4 flex-1">
+      <div className="mt-2 px-4 flex-1">
         {/* Business Suite Header */}
         <div className="flex items-center justify-between">
           <p className="text-xs text-gray-300 font-medium">BUSINESS SUITE</p>
           <ChevronDown size={14} className="text-gray-300" />
         </div>
 
+        {/* Separator line */}
+        <div className="border-t border-gray-700 mx-2 my-1"></div>
+
         {/* Project Planning Section */}
-        <div className="mt-3">
+        <div className="mt-2">
           <div 
             className="flex items-center justify-between cursor-pointer"
             onClick={() => setPlanningExpanded(!planningExpanded)}
@@ -95,17 +104,24 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               <NavItem 
                 icon={<Layers size={16} />} 
                 label="Task creation & management" 
+                active={isActive('/dashboard')}
+                onClick={() => navigate('/dashboard')}
               />
               <NavItem 
                 icon={<Users size={16} />} 
-                label="Overview" 
+                label="Overview"
+                active={isActive('/dashboard')}
+                onClick={() => navigate('/dashboard')} 
               />
             </div>
           )}
         </div>
 
+        {/* Separator line */}
+        <div className="border-t border-gray-700 mx-2 my-1"></div>
+
         {/* Outsourcing Section */}
-        <div className="mt-4">
+        <div className="mt-2">
           <div 
             className="flex items-center justify-between cursor-pointer"
             onClick={() => setOutsourcingExpanded(!outsourcingExpanded)}
@@ -120,19 +136,22 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             />
           </div>
           
+          {/* Separator line */}
+          <div className="border-t border-gray-700 mx-2 my-1"></div>
+          
           {outsourcingExpanded && (
             <div className="pl-2 mt-1 space-y-1">
               <NavItem 
                 icon={<FileText size={16} />} 
-                label="Talent Announcement" 
-                active={isActive('/outsourcing/talent-announcement')}
-                onClick={() => navigate('/outsourcing/talent-announcement')}
+                label="Announcement" 
+                active={isActive('/outsourcing/announcement')}
+                onClick={() => navigate('/outsourcing/announcement')}
               />
               <NavItem 
                 icon={<Briefcase size={16} />} 
-                label="Job Requirements" 
-                active={isActive('/outsourcing/job-requirements')}
-                onClick={() => navigate('/outsourcing/job-requirements')}
+                label="Requirement" 
+                active={isActive('/outsourcing/requirement')}
+                onClick={() => navigate('/outsourcing/requirement')}
               />
               <NavItem 
                 icon={<FileText size={16} />} 
@@ -150,6 +169,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           )}
         </div>
       </div>
+
+      {/* Separator line */}
+      <div className="border-t border-gray-700 mx-2 my-1"></div>
 
       <div className="mt-auto mb-4 space-y-1 px-4">
         <NavItem icon={<Bell size={16} />} label="Notifications" badge={true} />

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import TaskColumn from './TaskColumn';
 import TaskModal from './TaskModal';
+import { toast } from 'sonner';
 
 interface Task {
   id: string;
@@ -19,19 +20,25 @@ const KanbanBoard: React.FC = () => {
       title: 'Design a logo', 
       inProgress: true,
       list: 'in_progress',
-      assignees: [] 
+      assignees: ['1', '3'] 
     },
     { 
       id: '2', 
-      title: 'Design a logo', 
+      title: 'Create marketing materials', 
       list: 'to_do',
-      assignees: [] 
+      assignees: ['2'] 
     },
     { 
       id: '3', 
-      title: 'Write a task', 
+      title: 'Finalize website content', 
       list: 'completed',
       assignees: [] 
+    },
+    { 
+      id: '4', 
+      title: 'Develop landing page', 
+      list: 'in_progress',
+      assignees: ['1'] 
     }
   ]);
 
@@ -53,7 +60,7 @@ const KanbanBoard: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50">
       <TaskColumn 
         title="To do" 
         count={todoTasks.length}
