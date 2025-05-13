@@ -1,60 +1,65 @@
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Paperclip, Calendar, Users, X, Check } from 'lucide-react';
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { toast } from 'sonner';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Plus, Calendar, Tag, FileText, Paperclip, Users, Clock, CheckSquare } from 'lucide-react';
+import { toast } from 'sonner';
+
+interface Task {
+  id: string;
+  title: string;
+  inProgress?: boolean;
+  assignees?: string[];
+  list?: string;
+}
 
 interface TaskModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (task: { id: string; title: string; list: string; assignees?: string[] }) => void;
+  onSave: (task: Task) => void;
   columnId: string;
 }
 
 const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, columnId }) => {
-  const [taskTitle, setTaskTitle] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [selectedAssignees, setSelectedAssignees] = useState<string[]>([]);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [dueDate, setDueDate] = useState<string | null>(null);
+  const [showAssigneesDropdown, setShowAssigneesDropdown] = useState(false);
+  const [showPriorityDropdown, setShowPriorityDropdown] = useState(false);
+  const [priority, setPriority] = useState('');
   
+  // Sample team members (in a real app, this would come from props or context)
   const teamMembers = [
     { id: '1', name: 'John Doe', initials: 'JD', color: 'bg-blue-500' },
     { id: '2', name: 'Jane Smith', initials: 'JS', color: 'bg-green-500' },
     { id: '3', name: 'Alex Johnson', initials: 'AJ', color: 'bg-purple-500' },
-    { id: '4', name: 'Lisa Brown', initials: 'LB', color: 'bg-orange-500' },
   ];
-
-  const dateOptions = [
-    { label: 'Today', value: new Date().toLocaleDateString() },
-    { label: 'Tomorrow', value: new Date(Date.now() + 86400000).toLocaleDateString() },
-    { label: 'Next Week', value: new Date(Date.now() + 7 * 86400000).toLocaleDateString() }
+  
+  const priorityOptions = [
+    { id: 'high', label: 'High', color: 'bg-red-500' },
+    { id: 'medium', label: 'Medium', color: 'bg-yellow-500' },
+    { id: 'low', label: 'Low', color: 'bg-green-500' },
   ];
 
   const handleSave = () => {
-    if (taskTitle.trim()) {
-      onSave({
-        id: Math.random().toString(36).substr(2, 9),
-        title: taskTitle,
-        list: columnId,
-        assignees: selectedAssignees
-      });
-      setTaskTitle('');
-      setSelectedAssignees([]);
-      setDueDate(null);
-      onClose();
-      toast.success("Task created successfully!");
-    } else {
-      toast.error("Please enter a task title");
+    if (!title.trim()) {
+      toast.error('Please provide a task title');
+      return;
     }
+
+    const newTask: Task = {
+      id: Date.now().toString(),
+      title,
+      list: columnId,
+      assignees: selectedAssignees,
+    };
+    
+    onSave(newTask);
+    toast.success('Task created successfully');
+    resetForm();
+    onClose();
   };
 
   const toggleAssignee = (id: string) => {
@@ -63,161 +68,192 @@ const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, columnId
     );
   };
 
-  const handleSelectDate = (date: string) => {
-    setDueDate(date);
-    setShowDatePicker(false);
-    toast.success("Due date added");
+  const setPriorityValue = (priorityId: string) => {
+    setPriority(priorityId);
+    setShowPriorityDropdown(false);
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      toast.success(`Attachment added: ${file.name}`);
-    }
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setSelectedAssignees([]);
+    setPriority('');
   };
 
-  const columnNames: Record<string, string> = {
-    'to_do': 'To Do',
-    'in_progress': 'In Progress',
-    'completed': 'Completed'
+  const handleAddDeadline = () => {
+    toast.info("Add deadline feature clicked");
+  };
+
+  const handleAddDescription = () => {
+    toast.info("Add description feature clicked");
+  };
+
+  const handleAttachFile = () => {
+    toast.info("Attach file feature clicked");
+  };
+
+  const handleAddWatchers = () => {
+    toast.info("Add watchers feature clicked");
+  };
+
+  const handleAddLabels = () => {
+    toast.info("Add labels feature clicked");
+  };
+
+  const handleAddSubtasks = () => {
+    toast.info("Add subtasks feature clicked");
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-gray-800">
-            Create Task in {columnNames[columnId] || 'Column'}
-          </DialogTitle>
+          <DialogTitle>Create Task</DialogTitle>
         </DialogHeader>
-        
-        <div className="py-4 space-y-4">
-          <div>
-            <Input 
-              autoFocus
-              placeholder="Task title"
-              value={taskTitle}
-              onChange={(e) => setTaskTitle(e.target.value)}
-              className="w-full text-base"
-            />
+
+        <div className="space-y-4 py-2">
+          <Input 
+            placeholder="Task title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="border-0 text-lg font-medium focus-visible:ring-0 focus-visible:ring-offset-0 p-0"
+          />
+          
+          <div className="text-sm text-gray-500">
+            {columnId && (
+              <div className="text-xs">
+                in list <span className="text-blue-500">{columnId.replace('_', ' ')}</span>
+              </div>
+            )}
           </div>
           
-          {/* Selected assignees */}
-          {selectedAssignees.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {selectedAssignees.map(id => {
-                const member = teamMembers.find(m => m.id === id);
-                return member ? (
-                  <div 
-                    key={id} 
-                    className="flex items-center gap-1 bg-gray-100 rounded-full px-2 py-1"
-                  >
-                    <Avatar className="h-6 w-6">
-                      <AvatarFallback className={`${member.color} text-white text-xs`}>
-                        {member.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="text-sm">{member.name}</span>
-                    <button 
-                      onClick={() => toggleAssignee(id)}
-                      className="text-gray-500 hover:text-gray-700"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                ) : null;
-              })}
-            </div>
-          )}
-
-          {/* Due date display */}
-          {dueDate && (
-            <div className="flex items-center gap-2 bg-gray-100 rounded-md px-3 py-2 w-fit">
-              <Calendar size={16} className="text-gray-500" />
-              <span className="text-sm">{dueDate}</span>
-              <button 
-                onClick={() => setDueDate(null)}
-                className="text-gray-500 hover:text-gray-700"
+          <div className="space-y-2">
+            <div className="relative">
+              <button
+                className="flex items-center gap-2 text-gray-600 text-sm p-1 hover:bg-gray-50 rounded-md"
+                onClick={() => setShowAssigneesDropdown(!showAssigneesDropdown)}
               >
-                <X size={14} />
+                <Users size={16} />
+                <span>
+                  {selectedAssignees.length === 0 
+                    ? 'Add assignees' 
+                    : `${selectedAssignees.length} assignee${selectedAssignees.length > 1 ? 's' : ''}`}
+                </span>
               </button>
-            </div>
-          )}
-          
-          <div className="flex items-center space-x-3">
-            <DropdownMenu open={showDatePicker} onOpenChange={setShowDatePicker}>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="hover:bg-gray-100">
-                  <Calendar size={16} className="mr-2 text-gray-500" />
-                  <span>Add deadline</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                {dateOptions.map(option => (
-                  <DropdownMenuItem 
-                    key={option.label}
-                    onClick={() => handleSelectDate(option.value)}
-                    className="cursor-pointer"
-                  >
-                    {option.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="hover:bg-gray-100">
-                  <Users size={16} className="mr-2 text-gray-500" />
-                  <span>Add assignees</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                {teamMembers.map(member => (
-                  <DropdownMenuItem 
-                    key={member.id} 
-                    className="flex items-center gap-2 cursor-pointer"
-                    onClick={() => toggleAssignee(member.id)}
-                  >
-                    <div className="flex items-center gap-2 flex-1">
+              
+              {showAssigneesDropdown && (
+                <div className="absolute z-10 mt-1 w-56 bg-white border border-gray-200 rounded-md shadow-lg p-1">
+                  {teamMembers.map(member => (
+                    <button
+                      key={member.id}
+                      className={`flex items-center gap-2 w-full text-left p-2 rounded-md ${
+                        selectedAssignees.includes(member.id) ? 'bg-gray-100' : 'hover:bg-gray-50'
+                      }`}
+                      onClick={() => toggleAssignee(member.id)}
+                    >
                       <Avatar className="h-6 w-6">
                         <AvatarFallback className={`${member.color} text-white text-xs`}>
                           {member.initials}
                         </AvatarFallback>
                       </Avatar>
                       <span>{member.name}</span>
-                    </div>
-                    {selectedAssignees.includes(member.id) && (
-                      <Check size={16} className="text-green-500" />
-                    )}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                      {selectedAssignees.includes(member.id) && (
+                        <CheckSquare size={16} className="ml-auto text-blue-500" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             
-            <label>
-              <Button variant="outline" size="sm" className="hover:bg-gray-100" as="div">
-                <Paperclip size={16} className="mr-2 text-gray-500" />
-                <span>Add attachment</span>
-                <input 
-                  type="file" 
-                  className="hidden" 
-                  onChange={handleFileUpload}
-                />
-              </Button>
-            </label>
+            <button
+              className="flex items-center gap-2 text-gray-600 text-sm p-1 hover:bg-gray-50 rounded-md w-full text-left"
+              onClick={handleAddDeadline}
+            >
+              <Clock size={16} />
+              <span>Add a deadline</span>
+            </button>
+
+            <div className="relative">
+              <button
+                className="flex items-center gap-2 text-gray-600 text-sm p-1 hover:bg-gray-50 rounded-md w-full text-left"
+                onClick={() => setShowPriorityDropdown(!showPriorityDropdown)}
+              >
+                <Tag size={16} />
+                <span>{priority ? `Priority: ${priorityOptions.find(p => p.id === priority)?.label}` : 'Select a priority'}</span>
+              </button>
+              
+              {showPriorityDropdown && (
+                <div className="absolute z-10 mt-1 w-56 bg-white border border-gray-200 rounded-md shadow-lg p-1">
+                  {priorityOptions.map(option => (
+                    <button
+                      key={option.id}
+                      className={`flex items-center gap-2 w-full text-left p-2 rounded-md ${
+                        priority === option.id ? 'bg-gray-100' : 'hover:bg-gray-50'
+                      }`}
+                      onClick={() => setPriorityValue(option.id)}
+                    >
+                      <span className={`h-3 w-3 rounded-full ${option.color}`}></span>
+                      <span>{option.label}</span>
+                      {priority === option.id && (
+                        <CheckSquare size={16} className="ml-auto text-blue-500" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            <button
+              className="flex items-center gap-2 text-gray-600 text-sm p-1 hover:bg-gray-50 rounded-md w-full text-left"
+              onClick={handleAddDescription}
+            >
+              <FileText size={16} />
+              <span>Add a description</span>
+            </button>
+            
+            <button
+              className="flex items-center gap-2 text-gray-600 text-sm p-1 hover:bg-gray-50 rounded-md w-full text-left"
+              onClick={handleAttachFile}
+            >
+              <Paperclip size={16} />
+              <span>Attach a file</span>
+            </button>
+            
+            <button
+              className="flex items-center gap-2 text-gray-600 text-sm p-1 hover:bg-gray-50 rounded-md w-full text-left"
+              onClick={handleAddWatchers}
+            >
+              <Users size={16} />
+              <span>Add watchers</span>
+            </button>
+            
+            <button
+              className="flex items-center gap-2 text-gray-600 text-sm p-1 hover:bg-gray-50 rounded-md w-full text-left"
+              onClick={handleAddLabels}
+            >
+              <Tag size={16} />
+              <span>Add labels</span>
+            </button>
+            
+            <button
+              className="flex items-center gap-2 text-gray-600 text-sm p-1 hover:bg-gray-50 rounded-md w-full text-left"
+              onClick={handleAddSubtasks}
+            >
+              <CheckSquare size={16} />
+              <span>Add subtasks</span>
+            </button>
+            
+            <Button 
+              onClick={handleSave} 
+              className="w-full bg-[#9b87f5] hover:bg-[#8a74e2] text-white mt-3"
+              variant="outline"
+              size="sm"
+            >
+              Create task
+            </Button>
           </div>
         </div>
-        
-        <DialogFooter className="border-t pt-4">
-          <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-          <Button 
-            onClick={handleSave}
-            className="bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
-          >
-            Create Task
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

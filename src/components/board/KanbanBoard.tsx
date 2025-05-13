@@ -22,24 +22,6 @@ const KanbanBoard: React.FC = () => {
       list: 'in_progress',
       assignees: ['1', '3'] 
     },
-    { 
-      id: '2', 
-      title: 'Create marketing materials', 
-      list: 'to_do',
-      assignees: ['2'] 
-    },
-    { 
-      id: '3', 
-      title: 'Finalize website content', 
-      list: 'completed',
-      assignees: [] 
-    },
-    { 
-      id: '4', 
-      title: 'Develop landing page', 
-      list: 'in_progress',
-      assignees: ['1'] 
-    }
   ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,25 +42,38 @@ const KanbanBoard: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50">
-      <TaskColumn 
-        title="To do" 
-        count={todoTasks.length}
-        tasks={todoTasks}
-        onAddTask={() => openTaskModal('to_do')}
-      />
-      <TaskColumn 
-        title="In progress" 
-        count={inProgressTasks.length}
-        tasks={inProgressTasks}
-        onAddTask={() => openTaskModal('in_progress')}
-      />
-      <TaskColumn 
-        title="Completed" 
-        count={completedTasks.length}
-        tasks={completedTasks}
-        onAddTask={() => openTaskModal('completed')}
-      />
+    <div className="flex flex-col p-4 bg-white">
+      {/* Board header with tabs */}
+      <div className="flex space-x-4 mb-4 border-b border-gray-200">
+        <button className="pb-2 px-2 text-sm font-medium border-b-2 border-[#9b87f5]">List</button>
+        <button className="pb-2 px-2 text-sm font-medium text-gray-500">Board</button>
+        <button className="pb-2 px-2 text-sm font-medium text-gray-500">Calendar</button>
+        <button className="pb-2 px-2 text-sm font-medium text-gray-500 flex items-center">
+          <span className="mr-1">+</span> more views
+        </button>
+      </div>
+      
+      {/* Kanban columns */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+        <TaskColumn 
+          title="To do" 
+          count={todoTasks.length}
+          tasks={todoTasks}
+          onAddTask={() => openTaskModal('to_do')}
+        />
+        <TaskColumn 
+          title="In progress" 
+          count={inProgressTasks.length}
+          tasks={inProgressTasks}
+          onAddTask={() => openTaskModal('in_progress')}
+        />
+        <TaskColumn 
+          title="Completed" 
+          count={completedTasks.length}
+          tasks={completedTasks}
+          onAddTask={() => openTaskModal('completed')}
+        />
+      </div>
 
       <TaskModal 
         isOpen={isModalOpen}

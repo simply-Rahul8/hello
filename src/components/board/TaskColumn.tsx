@@ -31,8 +31,8 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks, onAddTask 
   };
   
   return (
-    <div className="task-column bg-gray-50 rounded-md p-3">
-      <div className="task-column-header flex items-center justify-between mb-3">
+    <div className="task-column bg-gray-100 rounded-md overflow-hidden flex flex-col">
+      <div className="task-column-header flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
           <span className="task-column-title font-medium">{title}</span>
           <span className="text-gray-500 text-sm">({count})</span>
@@ -42,12 +42,12 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks, onAddTask 
             className="text-gray-500 hover:text-gray-700 rounded p-1 hover:bg-gray-200"
             onClick={handleClearColumn}
           >
-            <X size={18} />
+            <X size={16} />
           </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="text-gray-500 hover:text-gray-700 rounded p-1 hover:bg-gray-200">
-                <MoreHorizontal size={18} />
+                <MoreHorizontal size={16} />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -62,18 +62,18 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, count, tasks, onAddTask 
         </div>
       </div>
       
-      <div className="task-column-content max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
+      <div className="task-column-content flex-grow overflow-y-auto px-4 pb-2 max-h-[calc(100vh-280px)]">
         {tasks.map(task => (
           <TaskCard key={task.id} task={task} />
         ))}
       </div>
 
       <button 
-        className="task-add-button mt-3 w-full flex items-center justify-center gap-2 bg-white border border-gray-200 rounded-md py-2 text-gray-600 hover:bg-gray-50 transition-colors"
+        className="px-4 py-2 mx-4 my-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded flex items-center justify-center text-sm font-medium"
         onClick={onAddTask}
       >
-        <Plus size={16} />
-        <span>Add a task</span>
+        <Plus size={16} className="mr-1" />
+        Add a task
       </button>
     </div>
   );
