@@ -25,6 +25,9 @@ const Index = () => {
           <Link to="/project-deadline">
             <Button variant="outline">Project Deadline</Button>
           </Link>
+          <Link to="/NotFound">
+            <Button variant="outline">NotFound</Button>
+          </Link>
         </div>
       </div>
     </AppLayout>

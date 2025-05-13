@@ -72,7 +72,7 @@ const ProjectDeadline: React.FC = () => {
   return (
     <AppLayout>
       <div className="p-6 max-w-3xl mx-auto">
-        <h1 className="text-xl font-bold mb-6">Carmen's workspace</h1>
+        <h1 className="text-xl font-bold mb-6">workspace</h1>
         
         <div className="space-y-6">
           {/* Project Name */}

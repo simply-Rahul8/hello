@@ -25,7 +25,7 @@ const JobRequirements = () => {
       <div className="p-8 max-w-6xl mx-auto">
         {/* Workspace Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Carmen's workspace</h1>
+          <h1 className="text-2xl font-bold text-gray-800">workspace</h1>
         </div>
 
         {/* Main Content Card */}
