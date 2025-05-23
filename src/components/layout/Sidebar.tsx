@@ -1,13 +1,12 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  Layers, 
-  Users, 
-  Settings, 
-  ChevronDown, 
-  Bell, 
+import {
+  Home,
+  Layers,
+  Users,
+  Settings,
+  ChevronDown,
+  Bell,
   Briefcase,
   FileText,
   CalendarDays
@@ -37,15 +36,15 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       <div className="p-4 flex items-center gap-2">
         <div className="flex items-center">
           <img
-            src='/lovable-uploads/f5cfae2c-7cc8-4c8d-80c1-9443d9e9eb08.png'
+            src='../../assets/gaddr.png'
             alt='Gaddr Logo'
-            className='h-8'
+            className='h-12'
           />
         </div>
       </div>
 
-      {/* Separator line */}
-      <div className="border-t border-gray-700 mx-2 my-1"></div>
+      {/* White separator */}
+      <div className="border-t border-white/20 mx-2 my-2"></div>
 
       {/* Workspaces Section */}
       <div className="px-4 py-2">
@@ -53,7 +52,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
 
         <div className="flex items-center gap-2 bg-[#5c1a77] rounded-md p-2">
           <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center text-purple-800 font-bold text-sm">
-            W
+          <img
+            src='../../assets/user-icon.png'
+            alt='user Logo'
+            className='h-8'
+          />
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium">Workspace</span>
@@ -62,8 +65,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         </div>
       </div>
 
-      {/* Separator line */}
-      <div className="border-t border-gray-700 mx-2 my-1"></div>
+      {/* White separator */}
+      <div className="border-t border-white/20 mx-2 my-2"></div>
 
       {/* Navigation */}
       <div className="mt-2 px-4 flex-1">
@@ -73,95 +76,93 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           <ChevronDown size={14} className="text-gray-300" />
         </div>
 
-        {/* Separator line */}
-        <div className="border-t border-gray-700 mx-2 my-1"></div>
+        <div className="border-t border-white/20 mx-0 my-2"></div>
 
         {/* Project Planning Section */}
         <div className="mt-2">
-          <div 
+          <div
             className="flex items-center justify-between cursor-pointer"
             onClick={() => setPlanningExpanded(!planningExpanded)}
           >
             <p className="text-xs text-gray-300">Project planning and</p>
-            <ChevronDown 
-              size={14} 
+            <ChevronDown
+              size={14}
               className={cn(
-                "text-gray-300 transition-transform", 
+                "text-gray-300 transition-transform",
                 planningExpanded ? "transform rotate-180" : ""
-              )} 
+              )}
             />
           </div>
           <p className="text-xs text-gray-300 mb-2">management</p>
-          
+
           {planningExpanded && (
             <div className="pl-2 mt-1 space-y-1">
-              <NavItem 
-                icon={<Home size={16} />} 
-                label="Dashboard" 
+              <NavItem
+                icon={<Home size={16} />}
+                label="Dashboard"
                 active={isActive('/dashboard')}
                 onClick={() => navigate('/dashboard')}
               />
-              <NavItem 
-                icon={<Layers size={16} />} 
-                label="Task creation & management" 
+              <NavItem
+                icon={<Layers size={16} />}
+                label="Task creation & management"
                 active={isActive('/dashboard')}
                 onClick={() => navigate('/dashboard')}
               />
-              <NavItem 
-                icon={<Users size={16} />} 
+              <NavItem
+                icon={<Users size={16} />}
                 label="Overview"
                 active={isActive('/dashboard')}
-                onClick={() => navigate('/dashboard')} 
+                onClick={() => navigate('/dashboard')}
               />
             </div>
           )}
         </div>
 
-        {/* Separator line */}
-        <div className="border-t border-gray-700 mx-2 my-1"></div>
+        {/* White separator */}
+        <div className="border-t border-white/20 mx-0 my-2"></div>
 
         {/* Outsourcing Section */}
         <div className="mt-2">
-          <div 
+          <div
             className="flex items-center justify-between cursor-pointer"
             onClick={() => setOutsourcingExpanded(!outsourcingExpanded)}
           >
             <p className="text-xs text-gray-300 font-medium">Outsourcing</p>
-            <ChevronDown 
-              size={14} 
+            <ChevronDown
+              size={14}
               className={cn(
-                "text-gray-300 transition-transform", 
+                "text-gray-300 transition-transform",
                 outsourcingExpanded ? "transform rotate-180" : ""
-              )} 
+              )}
             />
           </div>
-          
-          {/* Separator line */}
-          <div className="border-t border-gray-700 mx-2 my-1"></div>
-          
+
+          <div className="border-t border-white/20 mx-0 my-2"></div>
+
           {outsourcingExpanded && (
             <div className="pl-2 mt-1 space-y-1">
-              <NavItem 
-                icon={<FileText size={16} />} 
-                label="Announcement" 
+              <NavItem
+                icon={<FileText size={16} />}
+                label="Announcement"
                 active={isActive('/outsourcing/announcement')}
                 onClick={() => navigate('/outsourcing/announcement')}
               />
-              <NavItem 
-                icon={<Briefcase size={16} />} 
-                label="Requirement" 
+              <NavItem
+                icon={<Briefcase size={16} />}
+                label="Requirement"
                 active={isActive('/outsourcing/requirement')}
                 onClick={() => navigate('/outsourcing/requirement')}
               />
-              <NavItem 
-                icon={<FileText size={16} />} 
-                label="Job Posting" 
+              <NavItem
+                icon={<FileText size={16} />}
+                label="Job Posting"
                 active={isActive('/outsourcing/job-posting')}
                 onClick={() => navigate('/outsourcing/job-posting')}
               />
-              <NavItem 
-                icon={<CalendarDays size={16} />} 
-                label="Project Deadline" 
+              <NavItem
+                icon={<CalendarDays size={16} />}
+                label="Project Deadline"
                 active={isActive('/outsourcing/project-deadline')}
                 onClick={() => navigate('/outsourcing/project-deadline')}
               />
@@ -170,9 +171,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         </div>
       </div>
 
-      {/* Separator line */}
-      <div className="border-t border-gray-700 mx-2 my-1"></div>
+      {/* White separator */}
+      <div className="border-t border-white/20 mx-2 my-2"></div>
 
+      {/* Footer Nav */}
       <div className="mt-auto mb-4 space-y-1 px-4">
         <NavItem icon={<Bell size={16} />} label="Notifications" badge={true} />
         <NavItem icon={<Settings size={16} />} label="Settings" />
@@ -193,8 +195,9 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, active, badge, onClick }
   return (
     <div
       className={cn(
-        "flex items-center px-3 py-2 rounded-md transition-all duration-300 ease-in-out hover:bg-[#1f1d1c] cursor-pointer",
-        active && "bg-[#1f1d1c]"
+        "flex items-center px-3 py-2 rounded-md transition-all duration-300 ease-in-out cursor-pointer border-b border-white/20",
+        // Removed dark background
+        active && "font-semibold"
       )}
       onClick={onClick}
     >

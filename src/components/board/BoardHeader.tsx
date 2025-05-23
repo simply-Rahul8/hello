@@ -51,7 +51,11 @@ const BoardHeader: React.FC = () => {
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2">
               <div className="h-8 w-8 rounded-full bg-[#33C3F0] flex items-center justify-center text-white text-xs border-2 border-white">
-                <User size={16} />
+              <img 
+                src="../assets/userIcon3.svg" 
+                alt="User Profile" 
+                className="h-8 w-8 rounded-full border-2 border-white object-cover"
+              />
               </div>
               <ChevronDown size={14} />
             </button>
